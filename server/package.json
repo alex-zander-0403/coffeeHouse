@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/server.js",
     "db1": "sequelize db:drop && sequelize db:create && sequelize db:migrate && sequelize db:seed:all"
   },
   "keywords": [],
