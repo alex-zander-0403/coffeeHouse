@@ -10,8 +10,15 @@ export default function NavBar() {
       <Container>
         <Navbar.Brand href="#home">Navbar</Navbar.Brand>
         <Nav className="me-auto">
-          <Link to={'/'} href="#home">Home</Link>
-          <Link to={'/coffee'} href="#coffee">Coffee</Link>
+          <Link to={"/"} href="#home">
+            Home
+          </Link>
+          <Link to={"/coffee"} href="#coffee">
+            Coffee
+          </Link>
+          <Link to={"/coffeeadd"} href="#coffeeadd">
+            Добавить
+          </Link>
         </Nav>
       </Container>
     </Navbar>

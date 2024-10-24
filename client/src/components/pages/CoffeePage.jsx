@@ -6,6 +6,16 @@ import axios from "axios";
 export default function CoffeePage() {
   const [currentCoffee, setCurrentCoffee] = useState([]);
 
+  const deleteHandler = async (id) => {
+    try {
+      await axios.delete(`/api/coffee/${id}`);
+      setCurrentCoffee((prev) => prev.filter((el) => el.id !== id));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // getAll
   const getCoffee = async () => {
     try {
       const res = await fetch("/api/coffee"); // возвращает промис с полем status
@@ -18,6 +28,7 @@ export default function CoffeePage() {
     }
   };
 
+  // запуск getAll
   useEffect(() => {
     getCoffee();
   }, []);
@@ -42,7 +53,12 @@ export default function CoffeePage() {
     <>
       <Row>
         {currentCoffee.map((el) => (
-          <CoffeeCard key={el.id} coffee={el} updateHandler={updateHandler} />
+          <CoffeeCard
+            key={el.id}
+            coffee={el}
+            updateHandler={updateHandler}
+            deleteHandler={deleteHandler}
+          />
         ))}
       </Row>
     </>

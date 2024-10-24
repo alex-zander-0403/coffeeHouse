@@ -3,6 +3,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./components/Layout";
 import MainPage from "./components/pages/MainPage";
 import CoffeePage from "./components/pages/CoffeePage";
+import CoffeeOneCard from "./components/ui/CoffeeOneCard";
+import CoffeeAddPage from "./components/pages/CoffeeAddPage";
 
 function App() {
   const router = createBrowserRouter([
@@ -17,6 +19,14 @@ function App() {
         {
           path: "/coffee",
           element: <CoffeePage />,
+        },
+        {
+          path: "/onecoffee",
+          element: <CoffeeOneCard />,
+        },
+        {
+          path: "/coffeeadd",
+          element: <CoffeeAddPage />,
         },
       ],
     },
