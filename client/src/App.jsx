@@ -1,16 +1,75 @@
-import React from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  useNavigate,
+} from "react-router-dom";
 import Layout from "./components/Layout";
 import MainPage from "./components/pages/MainPage";
 import CoffeePage from "./components/pages/CoffeePage";
 import CoffeeOneCard from "./components/ui/CoffeeOneCard";
 import CoffeeAddPage from "./components/pages/CoffeeAddPage";
 
+import axiosInstance, { setAccessToken } from "./api/axiosInstance";
+import SignUpPage from "./components/pages/SignUpPage";
+import LoginPage from "./components/pages/LoginPage";
+
+//
 function App() {
+  const [user, setUser] = useState({ status: "logging" });
+
+  useEffect(() => {
+    axiosInstance("/tokens/refresh")
+      .then(({ data }) => {
+        setTimeout(() => {
+          setUser({ status: "logged", data: data.user });
+        }, 1000);
+        setAccessToken(data.accessToken);
+      })
+      .catch(() => {
+        setUser({ status: "guest", data: null });
+        setAccessToken("");
+      });
+  }, []);
+
+  // handler на регистрацию
+  const signUpHandler = (e) => {
+    e.preventDefault();
+    const formData = Object.fromEntries(new FormData(e.target));
+    if (!formData.email || !formData.password || !formData.name) {
+      return alert("Missing required fields");
+    }
+    axiosInstance.post("/auth/signup", formData).then(({ data }) => {
+      setUser({ status: "logged", data: data.user });
+      setAccessToken(data.accessToken);
+    });
+  };
+
+  // handler на logout
+  const logoutHandler = () => {
+    axiosInstance
+      .then(() => setUser({ status: "guest", data: null }))
+      .get("/auth/logout");
+  };
+
+  // handler на авторизацию
+  const loginHandler = (e) => {
+    e.preventDefault();
+    const formData = Object.fromEntries(new FormData(e.target));
+    if (!formData.email || !formData.password) {
+      return alert("Missing required fields");
+    }
+    axiosInstance.post("/auth/login", formData).then(({ data }) => {
+      setUser({ status: "logged", data: data.user });
+      setAccessToken(data.accessToken);
+    });
+  };
+
+  //
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Layout />,
+      element: <Layout logoutHandler={logoutHandler} user={user} />,
       children: [
         {
           path: "/",
@@ -27,6 +86,15 @@ function App() {
         {
           path: "/coffeeadd",
           element: <CoffeeAddPage />,
+        },
+        // ---------------------------
+        {
+          path: "/singup",
+          element: <SignUpPage signUpHandler={signUpHandler} />,
+        },
+        {
+          path: "/login",
+          element: <LoginPage loginHandler={loginHandler} />,
         },
       ],
     },

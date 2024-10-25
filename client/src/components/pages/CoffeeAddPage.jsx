@@ -1,8 +1,8 @@
 import React from "react";
-import CoffeeAddUi from "../ui/CoffeeAddUi";
-import Container from "react-bootstrap/esm/Container";
+import Button from "react-bootstrap/esm/Button";
+import Form from "react-bootstrap/Form";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 export default function CoffeeAddPage() {
   const navigate = useNavigate();
@@ -14,17 +14,24 @@ export default function CoffeeAddPage() {
     const dataFromForm = Object.fromEntries(formData);
     form.reset(); // очистка полей формы
 
-    const response = await axios.post("api/coffee", dataFromForm);
-    const newCoffee = response.data;
-    // 1:48
+    await axios.post("api/coffee", dataFromForm);
     navigate("/coffee"); // переход обратно на /coffee
   };
+  // 1:48
 
   return (
     <>
-      <Container>
-        <CoffeeAddUi submitHandler={submitHandler} />;
-      </Container>
+      <Form onSubmit={submitHandler}>
+        <Form.Control name="title" type="text" placeholder="title" />
+        <Form.Control name="desc" type="text" placeholder="desc" />
+        <Form.Control name="url" type="text" placeholder="url" />
+        <Button type="submit" variant="warning">
+          Подтвердить
+        </Button>{" "}
+        <Button variant="info">
+          <Link to={"/coffee"}>Назад</Link>
+        </Button>
+      </Form>
     </>
   );
 }

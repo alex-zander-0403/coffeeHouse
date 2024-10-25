@@ -16,8 +16,8 @@ coffeeRouter
   })
   .post(async (req, res) => {
     try {
-      const { title, desc, url = '1-default.jpg' } = req.body;
-      const newCoffee = await Coffee.create({ title, desc, url });
+      const { title, desc, url } = req.body;
+      const newCoffee = await Coffee.create({ title, desc, url: url || '1-default.jpg' });
       res.status(201).json(newCoffee);
     } catch (error) {
       console.log(error);
@@ -48,6 +48,7 @@ coffeeRouter
     try {
       const { id } = req.params;
       await Coffee.destroy({ where: { id } });
+      res.sendStatus(200); //
     } catch (error) {
       console.log(error);
       res

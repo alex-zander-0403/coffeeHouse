@@ -17,10 +17,13 @@ module.exports = {
       },
       desc: {
         type: Sequelize.TEXT,
+        allowNull: false,
+        defaultValue:'hahahaha'
       },
       url: {
         type: Sequelize.STRING,
-        defaultValue: './default-img.jpg', // значение по умолчанию
+        allowNull: false,
+        defaultValue: '1-default.jpg', // значение по умолчанию
       },
       userId: {
         type: Sequelize.INTEGER,

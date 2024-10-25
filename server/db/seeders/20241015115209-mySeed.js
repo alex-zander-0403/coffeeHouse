@@ -1,14 +1,34 @@
 'use strict';
 
+const bcrypt = require('bcrypt');
+
 const { User, Coffee } = require('../models');
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
     await User.bulkCreate([
-      { name: 'Alex', email: '111@111', password: '111' },
-      { name: 'Bob', email: '222@222', password: '222' },
-      { name: 'Carl', email: '333@333', password: '333' },
+      {
+        name: 'Alex',
+        email: '111@111',
+        password: bcrypt.hashSync('111', 10),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: 'Bob',
+        email: '222@222',
+        password: bcrypt.hashSync('222', 10),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: 'Carl',
+        email: '333@333',
+        password: bcrypt.hashSync('333', 10),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
     ]);
     await Coffee.bulkCreate([
       {

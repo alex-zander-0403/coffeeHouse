@@ -9,7 +9,7 @@ export default function CoffeePage() {
   const deleteHandler = async (id) => {
     try {
       await axios.delete(`/api/coffee/${id}`);
-      setCurrentCoffee((prev) => prev.filter((el) => el.id !== id));
+      setCurrentCoffee((prev) => prev.filter((el) => el.id !== id)); // --- ?
     } catch (error) {
       console.log(error);
     }
