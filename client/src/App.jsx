@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  createBrowserRouter,
-  RouterProvider,
-  useNavigate,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./components/Layout";
 import MainPage from "./components/pages/MainPage";
 import CoffeePage from "./components/pages/CoffeePage";
@@ -48,8 +44,8 @@ function App() {
   // handler на logout
   const logoutHandler = () => {
     axiosInstance
-      .then(() => setUser({ status: "guest", data: null }))
-      .get("/auth/logout");
+      .get("/auth/logout")
+      .then(() => setUser({ status: "guest", data: null }));
   };
 
   // handler на авторизацию
@@ -77,7 +73,7 @@ function App() {
         },
         {
           path: "/coffee",
-          element: <CoffeePage />,
+          element: <CoffeePage user={user} />,
         },
         {
           path: "/onecoffee",

@@ -17,7 +17,8 @@ export default function CoffeeOneCard() {
           <Card.Body>
             <Card.Title>{coffee.title}</Card.Title>
             <Card.Text>{coffee.desc}</Card.Text>
-            
+            <Card.Text>Belong to user: {coffee.userId}</Card.Text>
+
             <Button variant="info">
               <Link to={"/coffee"}>Назад</Link>
             </Button>

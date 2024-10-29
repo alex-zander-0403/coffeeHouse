@@ -3,17 +3,8 @@ import CoffeeCard from "../ui/CoffeeCard";
 import Row from "react-bootstrap/Row";
 import axios from "axios";
 
-export default function CoffeePage() {
+export default function CoffeePage({ user }) {
   const [currentCoffee, setCurrentCoffee] = useState([]);
-
-  const deleteHandler = async (id) => {
-    try {
-      await axios.delete(`/api/coffee/${id}`);
-      setCurrentCoffee((prev) => prev.filter((el) => el.id !== id)); // --- ?
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   // getAll
   const getCoffee = async () => {
@@ -33,6 +24,7 @@ export default function CoffeePage() {
     getCoffee();
   }, []);
 
+  // редактирование
   const updateHandler = async (event, coffeeId) => {
     event.preventDefault();
     try {
@@ -49,6 +41,16 @@ export default function CoffeePage() {
     }
   };
 
+  // удаление
+  const deleteHandler = async (id) => {
+    try {
+      await axios.delete(`/api/coffee/${id}`);
+      setCurrentCoffee((prev) => prev.filter((el) => el.id !== id)); // --- ?
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <Row>
@@ -58,6 +60,7 @@ export default function CoffeePage() {
             coffee={el}
             updateHandler={updateHandler}
             deleteHandler={deleteHandler}
+            user={user}
           />
         ))}
       </Row>

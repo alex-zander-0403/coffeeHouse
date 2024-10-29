@@ -1,5 +1,6 @@
 const coffeeRouter = require('express').Router();
 const { Coffee } = require('../../db/models');
+const { verifyAccessToken } = require('../middlewares/verifyTokens');
 
 coffeeRouter
   .route('/')
@@ -14,10 +15,16 @@ coffeeRouter
         .json({ message: error.message, text: 'Ошибка получения всех coffee' });
     }
   })
-  .post(async (req, res) => {
+  .post(verifyAccessToken, async (req, res) => {
     try {
       const { title, desc, url } = req.body;
-      const newCoffee = await Coffee.create({ title, desc, url: url || '1-default.jpg' });
+      const { id } = res.locals.user;
+      const newCoffee = await Coffee.create({
+        title,
+        desc,
+        url: url || '1-default.jpg',
+        userId: id,
+      });
       res.status(201).json(newCoffee);
     } catch (error) {
       console.log(error);
